@@ -1,3 +1,5 @@
+import { IMovies } from 'dtos/Movie.dto';
+
 const movieDetails = {
   adult: false,
   backdrop_path: '/fCayJrkfRaCRCTh8GqN30f8oyQF.jpg',
@@ -83,6 +85,6 @@ const movieDetails = {
   video: false,
   vote_average: 7.8,
   vote_count: 3439,
-};
+} as IMovies;
 
 export { movieDetails };
