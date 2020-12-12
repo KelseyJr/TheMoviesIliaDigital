@@ -13,6 +13,11 @@ class CreateMovieService {
   public async execute({ movieId }: IRequestDTO): Promise<Movies> {
     const moviesRepository = getMongoRepository(Movies);
 
+    const findMovie = await moviesRepository.findOne({ movieId });
+    if (findMovie) {
+      throw new AppError("Movie's already registered on application.");
+    }
+
     let response: AxiosResponse<IMovies>;
     try {
       response = await movieAPI.get(`/${movieId}`);
