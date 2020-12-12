@@ -1,36 +1,9 @@
 import { getMongoRepository } from 'typeorm';
 import { AxiosResponse } from 'axios';
+import { IMovies } from 'dtos/Movie.dto';
 import AppError from '../utils/errors/AppError';
 import movieAPI from '../utils/axios';
 import Movies from '../schemas/Movies';
-
-interface IMoviesAxiosResponse {
-  adult: boolean;
-  backdrop_path: string;
-  belongs_to_collection: null | Record<string, unknown>;
-  budget: number;
-  genres: Array<{ id: number; name: string }>;
-  homepage: string | null;
-  id: number;
-  imdb_id: string | null;
-  original_language: string;
-  original_title: string;
-  overview: string | null;
-  popularity: number;
-  poster_path: string | null;
-  production_companies: Array<{ id: number; logo_path: string | null; name: string; origin_country: string }>;
-  production_countries: Array<{ iso_3166_1: string; name: string }>;
-  release_date: string;
-  revenue: number;
-  runtime: number | null;
-  spoken_languages: Array<{ iso_639_1: string; name: string }>;
-  status: 'Rumored' | 'Planned' | 'In Production' | 'Post Production' | 'Released' | 'Canceled';
-  tagline: string | null;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
 
 interface IRequestDTO {
   movieId: number;
@@ -40,7 +13,7 @@ class CreateMovieService {
   public async execute({ movieId }: IRequestDTO): Promise<Movies> {
     const moviesRepository = getMongoRepository(Movies);
 
-    let response: AxiosResponse<IMoviesAxiosResponse>;
+    let response: AxiosResponse<IMovies>;
     try {
       response = await movieAPI.get(`/${movieId}`);
     } catch (error) {

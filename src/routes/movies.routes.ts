@@ -12,4 +12,6 @@ moviesRouter.post(
   moviesController.create,
 );
 
+moviesRouter.get('/', moviesController.findAll);
+
 export default moviesRouter;

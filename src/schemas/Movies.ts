@@ -1,26 +1,5 @@
+import { IGenres, IProductionCompanies, IProductionCountries, ISpokenLanguages } from 'dtos/Movie.dto';
 import { ObjectID, Entity, Column, CreateDateColumn, UpdateDateColumn, ObjectIdColumn } from 'typeorm';
-
-interface IGenres {
-  id: number;
-  name: string;
-}
-
-interface IProductionCompanies {
-  id: number;
-  name: string;
-  logoPath: string | null;
-  originCountry: string;
-}
-
-interface IProductionCountries {
-  iso_3166_1: string;
-  name: string;
-}
-
-interface ISpokenLanguages {
-  iso_639_1: string;
-  name: string;
-}
 
 @Entity('Movies')
 class Movies {
