@@ -13,6 +13,15 @@ moviesRouter.post(
 );
 
 moviesRouter.get('/', moviesController.findAll);
-moviesRouter.get('/:id', moviesController.findOne);
+moviesRouter.get(
+  '/:id',
+  celebrate({ [Segments.PARAMS]: { id: Joi.string().required().strict(true) } }),
+  moviesController.findOne,
+);
+moviesRouter.delete(
+  '/:id',
+  celebrate({ [Segments.PARAMS]: { id: Joi.string().required().strict(true) } }),
+  moviesController.delete,
+);
 
 export default moviesRouter;
