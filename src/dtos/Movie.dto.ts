@@ -23,7 +23,7 @@ export interface ISpokenLanguages {
 export interface IMovies {
   adult: boolean;
   backdrop_path: string;
-  belongs_to_collection: null | Record<string, unknown>;
+  belongs_to_collection: Record<string, unknown> | null;
   budget: number;
   genres: Array<{ id: number; name: string }>;
   homepage: string | null;
