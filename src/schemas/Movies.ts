@@ -1,10 +1,10 @@
 import { IGenres, IProductionCompanies, IProductionCountries, ISpokenLanguages } from 'dtos/Movie.dto';
-import { ObjectID, Entity, Column, CreateDateColumn, UpdateDateColumn, ObjectIdColumn } from 'typeorm';
+import { Entity, Column, CreateDateColumn, UpdateDateColumn, ObjectIdColumn } from 'typeorm';
 
 @Entity('Movies')
 class Movies {
   @ObjectIdColumn()
-  id: ObjectID;
+  id: string;
 
   @Column({
     unique: true,

@@ -13,5 +13,6 @@ moviesRouter.post(
 );
 
 moviesRouter.get('/', moviesController.findAll);
+moviesRouter.get('/:id', moviesController.findOne);
 
 export default moviesRouter;
