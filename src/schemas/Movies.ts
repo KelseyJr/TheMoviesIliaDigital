@@ -56,7 +56,7 @@ class Movies {
   productionCountries: IProductionCountries[];
 
   @Column()
-  releaseDate: Date;
+  releaseDate: Date | string;
 
   @Column()
   revenue: number;

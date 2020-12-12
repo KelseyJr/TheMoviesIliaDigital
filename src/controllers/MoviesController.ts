@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import UpdateMovieService from '../services/UpdateMovieService';
 import CreateMovieService from '../services/CreateMovieService';
 import FindAllMoviesService from '../services/FindAllMoviesService';
 import FindOneMovieService from '../services/FindOneMovieService';
@@ -41,6 +42,16 @@ class MoviesController {
     await deleteMovie.execute({ id });
 
     return response.json({ deleted: true });
+  }
+
+  public async update(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+
+    const updateMovie = new UpdateMovieService();
+
+    const movie = await updateMovie.execute({ id });
+
+    return response.json(movie);
   }
 }
 

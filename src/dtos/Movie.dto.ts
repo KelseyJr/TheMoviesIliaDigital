@@ -6,8 +6,8 @@ export interface IGenres {
 export interface IProductionCompanies {
   id: number;
   name: string;
-  logoPath: string | null;
-  originCountry: string;
+  logo_path: string | null;
+  origin_country: string;
 }
 
 export interface IProductionCountries {
@@ -23,7 +23,7 @@ export interface ISpokenLanguages {
 export interface IMovies {
   adult: boolean;
   backdrop_path: string;
-  belongs_to_collection: null | Record<string, unknown>;
+  belongs_to_collection: Record<string, unknown> | null;
   budget: number;
   genres: Array<{ id: number; name: string }>;
   homepage: string | null;
@@ -36,7 +36,7 @@ export interface IMovies {
   poster_path: string | null;
   production_companies: Array<{ id: number; logo_path: string | null; name: string; origin_country: string }>;
   production_countries: Array<{ iso_3166_1: string; name: string }>;
-  release_date: string;
+  release_date: Date | string;
   revenue: number;
   runtime: number | null;
   spoken_languages: Array<{ iso_639_1: string; name: string }>;

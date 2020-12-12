@@ -11,7 +11,11 @@ moviesRouter.post(
   celebrate({ [Segments.BODY]: { movieId: Joi.number().required().strict(true) } }),
   moviesController.create,
 );
-
+moviesRouter.put(
+  '/:id',
+  celebrate({ [Segments.PARAMS]: { id: Joi.string().required().strict(true) } }),
+  moviesController.update,
+);
 moviesRouter.get('/', moviesController.findAll);
 moviesRouter.get(
   '/:id',
