@@ -92,7 +92,7 @@ class Movies {
   voteCount: number;
 
   @Column({ default: undefined })
-  translations?: undefined | IMovieTranslation;
+  translations?: undefined | IMovieTranslation[];
 
   @CreateDateColumn({ type: 'timestamp with time zone' })
   createdAt: Date;

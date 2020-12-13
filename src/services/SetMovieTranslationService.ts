@@ -5,6 +5,11 @@ import movieAPI from '../utils/axios';
 import AppError from '../utils/errors/AppError';
 import Movies from '../schemas/Movies';
 
+interface IMovieTranslationResponse {
+  id?: number;
+  translations: IMovieTranslation[];
+}
+
 interface IRequestDTO {
   id: string;
 }
@@ -18,7 +23,7 @@ class SetMovieTranslationService {
       throw new AppError('Movie does not exist on application!');
     }
 
-    let response: AxiosResponse<IMovieTranslation & { id?: number }>;
+    let response: AxiosResponse<IMovieTranslationResponse>;
     try {
       response = await movieAPI.get(`/${movie.movieId}/translations`);
     } catch (error) {
@@ -28,7 +33,7 @@ class SetMovieTranslationService {
     const { data } = response;
 
     delete data.id;
-    movie.translations = data;
+    movie.translations = data.translations;
 
     await moviesRepository.save(movie);
 
