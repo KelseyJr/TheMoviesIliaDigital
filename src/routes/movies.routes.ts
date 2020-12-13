@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
+import MoviesTranslationsRouter from './moviesTranslations.routes';
 
 import MoviesController from '../controllers/MoviesController';
 
 const moviesController = new MoviesController();
-const moviesRouter = Router();
+const moviesRouter = Router({ mergeParams: true });
 
 moviesRouter.post(
   '/',
@@ -26,6 +27,12 @@ moviesRouter.delete(
   '/:id',
   celebrate({ [Segments.PARAMS]: { id: Joi.string().required().strict(true) } }),
   moviesController.delete,
+);
+
+moviesRouter.use(
+  '/:id/translations',
+  celebrate({ [Segments.PARAMS]: { id: Joi.string().required().strict(true) } }),
+  MoviesTranslationsRouter,
 );
 
 export default moviesRouter;

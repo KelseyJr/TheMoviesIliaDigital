@@ -1,4 +1,10 @@
-import { IGenres, IProductionCompanies, IProductionCountries, ISpokenLanguages } from 'dtos/Movie.dto';
+import {
+  IGenres,
+  IMovieTranslation,
+  IProductionCompanies,
+  IProductionCountries,
+  ISpokenLanguages,
+} from 'dtos/Movie.dto';
 import { Entity, Column, CreateDateColumn, UpdateDateColumn, ObjectIdColumn } from 'typeorm';
 
 @Entity('Movies')
@@ -84,6 +90,9 @@ class Movies {
 
   @Column()
   voteCount: number;
+
+  @Column({ default: undefined })
+  translations?: undefined | IMovieTranslation;
 
   @CreateDateColumn({ type: 'timestamp with time zone' })
   createdAt: Date;
