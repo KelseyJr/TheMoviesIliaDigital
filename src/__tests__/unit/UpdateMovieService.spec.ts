@@ -63,6 +63,7 @@ describe('Update Movie - Unity', () => {
     const movie = await updateMovie.execute({ id: savedMovie.id });
 
     expect(movie).toBeDefined();
+    expect(movie.id.toString()).toBe(savedMovie.id.toString());
     expect(movie.movieId).toBe(movieId);
     expect(movie.adult).toBeFalsy();
   });

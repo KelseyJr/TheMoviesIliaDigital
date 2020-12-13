@@ -61,6 +61,7 @@ describe('Update movie - Integration', () => {
 
     expect(response.status).toBe(200);
     expect(response.body.movieId).toBe(movieId);
+    expect(response.body.id.toString()).toBe(savedMovie.id.toString());
     expect(response.body.adult).toBeFalsy();
   });
 
