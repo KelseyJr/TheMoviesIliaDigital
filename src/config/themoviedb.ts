@@ -3,5 +3,5 @@ interface ITheMovieDB {
 }
 
 export default {
-  apiKey: process.env.API_KEY,
+  apiKey: process.env.API_KEY || '',
 } as ITheMovieDB;
