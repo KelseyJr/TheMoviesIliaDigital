@@ -3,13 +3,13 @@ import { getMongoRepository, MongoRepository } from 'typeorm';
 import MockAdapter from 'axios-mock-adapter';
 import Movies from '../../schemas/Movies';
 import movieAPI from '../../utils/axios';
-import { movieDetails } from '../DataMock';
+import { movieDetails, movieTranslations } from '../DataMock';
 import MongoMock from '../MongoMockConnection';
 import app from '../../app';
 
 let moviesRepository: MongoRepository<Movies>;
 const mock = new MockAdapter(movieAPI);
-describe('Update movie - Integration', () => {
+describe('Set movie translation - Integration', () => {
   beforeAll(async () => {
     await MongoMock.connect();
     moviesRepository = getMongoRepository(Movies);
@@ -23,9 +23,9 @@ describe('Update movie - Integration', () => {
     await MongoMock.disconnect();
   });
 
-  it('should be able to update movies', async () => {
+  it('should be able to set movie translation', async () => {
     const movieId = 550;
-    mock.onGet(`/${movieId}`).reply(200, movieDetails);
+    mock.onGet(`/${movieId}/translations`).reply(200, movieTranslations);
 
     const mockMovie1 = movieDetails;
     const movie1 = moviesRepository.create({
@@ -57,16 +57,16 @@ describe('Update movie - Integration', () => {
     });
     const savedMovie = await moviesRepository.save(movie1);
 
-    const response = await request(app).put(`/movies/${savedMovie.id}`).send({});
+    const response = await request(app).patch(`/movies/${savedMovie.id}/translations`).send({});
 
     expect(response.status).toBe(200);
-    expect(response.body.movieId).toBe(movieId);
     expect(response.body.id.toString()).toBe(savedMovie.id.toString());
-    expect(response.body.adult).toBeFalsy();
+    expect(response.body.movieId).toBe(movieId);
+    expect(response.body.translations).toBeDefined();
   });
 
-  it('should not be able to update movies when its does not exists on application', async () => {
-    const response = await request(app).put(`/movies/507f1f77bcf86cd799439011`).send({});
+  it('should not be able to set movie translation when its does not exists on application', async () => {
+    const response = await request(app).patch(`/movies/507f1f77bcf86cd799439011/translations`).send({});
 
     expect(response.status).toBe(400);
     expect(response.body).toMatchObject({
@@ -74,10 +74,10 @@ describe('Update movie - Integration', () => {
     });
   });
 
-  it('should not be able to update movies when resource could not be found', async () => {
+  it('should not be able to set movie translation when resource could not be found', async () => {
     const movieId = 550;
 
-    mock.onGet(`/${movieId}`).reply(404, {
+    mock.onGet(`/${movieId}/translations`).reply(404, {
       status_message: 'The resource you requested could not be found.',
       status_code: 34,
     });
@@ -112,7 +112,7 @@ describe('Update movie - Integration', () => {
     });
     const savedMovie = await moviesRepository.save(movie1);
 
-    const response = await request(app).put(`/movies/${savedMovie.id}`).send({});
+    const response = await request(app).patch(`/movies/${savedMovie.id}/translations`).send({});
 
     expect(response.status).toBe(404);
     expect(response.body.message).toMatchObject({
@@ -121,10 +121,10 @@ describe('Update movie - Integration', () => {
     });
   });
 
-  it('should not be able to update movies when API_KEY is not valid', async () => {
+  it('should not be able to set movie translation when API_KEY is not valid', async () => {
     const movieId = 550;
 
-    mock.onGet(`/${movieId}`).reply(401, {
+    mock.onGet(`/${movieId}/translations`).reply(401, {
       status_message: 'Invalid API key: You must be granted a valid key.',
       success: false,
       status_code: 7,
@@ -160,7 +160,7 @@ describe('Update movie - Integration', () => {
     });
     const savedMovie = await moviesRepository.save(movie1);
 
-    const response = await request(app).put(`/movies/${savedMovie.id}`).send({});
+    const response = await request(app).patch(`/movies/${savedMovie.id}/translations`).send({});
 
     expect(response.status).toBe(401);
     expect(response.body.message).toMatchObject({

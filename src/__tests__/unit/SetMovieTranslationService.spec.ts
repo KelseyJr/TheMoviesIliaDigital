@@ -1,16 +1,16 @@
 import { getMongoRepository, MongoRepository } from 'typeorm';
 import MockAdapter from 'axios-mock-adapter';
-import UpdateMovieService from '../../services/UpdateMovieService';
+import SetMovieTranslationService from '../../services/SetMovieTranslationService';
 import AppError from '../../utils/errors/AppError';
 import Movies from '../../schemas/Movies';
 import movieAPI from '../../utils/axios';
-import { movieDetails } from '../DataMock';
+import { movieDetails, movieTranslations } from '../DataMock';
 import MongoMock from '../MongoMockConnection';
 
 let moviesRepository: MongoRepository<Movies>;
 const mock = new MockAdapter(movieAPI);
 
-describe('Update Movie - Unity', () => {
+describe('Set movie  translations - Unity', () => {
   beforeAll(async () => {
     await MongoMock.connect();
     moviesRepository = getMongoRepository(Movies);
@@ -24,9 +24,9 @@ describe('Update Movie - Unity', () => {
     await MongoMock.disconnect();
   });
 
-  it('should be able to update movie', async () => {
+  it('should be able to set translation on movie', async () => {
     const movieId = 550;
-    mock.onGet(`/${movieId}`).reply(200, movieDetails);
+    mock.onGet(`/${movieId}/translations`).reply(200, movieTranslations);
 
     const mockMovie1 = movieDetails;
     const movie1 = moviesRepository.create({
@@ -58,36 +58,36 @@ describe('Update Movie - Unity', () => {
     });
     const savedMovie = await moviesRepository.save(movie1);
 
-    const updateMovie = new UpdateMovieService();
+    const setMovieTranslation = new SetMovieTranslationService();
 
-    const movie = await updateMovie.execute({ id: savedMovie.id });
+    const movie = await setMovieTranslation.execute({ id: savedMovie.id });
 
     expect(movie).toBeDefined();
-    expect(movie.id.toString()).toBe(savedMovie.id.toString());
     expect(movie.movieId).toBe(movieId);
-    expect(movie.adult).toBeFalsy();
+    expect(movie.id.toString()).toBe(savedMovie.id.toString());
+    expect(movie.translations).toBeDefined();
   });
 
-  it('should not be able to update movies when its not exists on application', async () => {
-    const updateMovie = new UpdateMovieService();
+  it('should not be able to set movie translation when its not exists on application', async () => {
+    const setMovieTranslation = new SetMovieTranslationService();
 
-    await expect(updateMovie.execute({ id: '507f1f77bcf86cd799439011' })).rejects.toBeInstanceOf(AppError);
+    await expect(setMovieTranslation.execute({ id: '507f1f77bcf86cd799439011' })).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should not be able to update movies when resource could not be found', async () => {
+  it('should not be able to set movie translation when resource could not be found', async () => {
     const movieId = 550;
 
-    mock.onGet(`/${movieId}`).reply(404, {
+    mock.onGet(`/${movieId}/translation`).reply(404, {
       status_message: 'The resource you requested could not be found.',
       status_code: 34,
     });
 
-    const updateMovie = new UpdateMovieService();
+    const setMovieTranslation = new SetMovieTranslationService();
 
-    await expect(updateMovie.execute({ id: '507f1f77bcf86cd799439011' })).rejects.toBeInstanceOf(AppError);
+    await expect(setMovieTranslation.execute({ id: '507f1f77bcf86cd799439011' })).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should not be able to update movies when API_KEY is not valid', async () => {
+  it('should not be able to set movie translation when API_KEY is not valid', async () => {
     const movieId = 550;
 
     mock.onGet(`/${movieId}`).reply(401, {
@@ -96,8 +96,8 @@ describe('Update Movie - Unity', () => {
       status_code: 7,
     });
 
-    const updateMovie = new UpdateMovieService();
+    const setMovieTranslation = new SetMovieTranslationService();
 
-    await expect(updateMovie.execute({ id: '507f1f77bcf86cd799439011' })).rejects.toBeInstanceOf(AppError);
+    await expect(setMovieTranslation.execute({ id: '507f1f77bcf86cd799439011' })).rejects.toBeInstanceOf(AppError);
   });
 });
