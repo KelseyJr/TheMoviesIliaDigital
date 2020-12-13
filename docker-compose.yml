@@ -1,0 +1,39 @@
+version: '3.6'
+
+networks:
+  challange-network:
+    driver: bridge
+
+services:
+  challange-api:
+    build: .
+    volumes:
+      - .:/usr/src/app
+    container_name: challange-api
+    environment:
+      - MONGO_HOST=challange-mongo
+    ports:
+      - 3333:3333
+    depends_on:
+      - challange-mongo
+    networks:
+      - challange-network
+
+
+  challange-mongo:
+    image: bitnami/mongodb:latest
+    container_name: challange-mongo
+    restart: always
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MONGODB_DATABASE=${MONGO_DB}
+    volumes:
+      - challange-mongo-data:/bitnami
+    networks:
+      - challange-network
+
+volumes:
+  challange-mongo-data:
+    driver: local
+
+

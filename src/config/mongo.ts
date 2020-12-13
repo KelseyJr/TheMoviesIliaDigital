@@ -1,11 +1,14 @@
+import { join } from 'path';
 import { ConnectionOptions } from 'typeorm';
 
+const schemaFolder = join(__dirname, '..', 'schemas', '*{.ts,.js}');
+
 export default {
-  name: process.env.MONGO_NAME || 'default',
+  name: 'default',
   type: 'mongodb',
-  host: process.env.MONGO_HOST || 'localhost',
-  port: process.env.MONGO_PORT || 27017,
-  database: process.env.MONGO_DB || 'IliasKelseyTeste',
-  entities: ['./schemas/*.ts'],
+  host: 'localhost',
+  port: 27017,
+  database: process.env.MONGO_DB || 'IliaChallange',
+  entities: [schemaFolder],
   useUnifiedTopology: true,
 } as ConnectionOptions;
