@@ -1,14 +1,17 @@
 import { join } from 'path';
-import { ConnectionOptions } from 'typeorm';
 
 const schemaFolder = join(__dirname, '..', 'schemas', '*{.ts,.js}');
 
+interface IMongoConfig {
+  host: string;
+  port: number;
+  database: string;
+  entities: string[];
+}
+
 export default {
-  name: 'default',
-  type: 'mongodb',
-  host: 'localhost',
-  port: 27017,
+  host: process.env.MONGO_URL || 'localhost',
+  port: process.env.MONGO_PORT || 27017,
   database: process.env.MONGO_DB || 'IliaChallange',
   entities: [schemaFolder],
-  useUnifiedTopology: true,
-} as ConnectionOptions;
+} as IMongoConfig;

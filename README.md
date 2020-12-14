@@ -18,7 +18,6 @@ Para visualizar os requisitos, acesso o arquivo TESTE.md, clicando <a href="http
   - [Clonando o repositório](#clonando-o-repositório)
   - [*Download* de dependências](#download-de-dependências)
   - [Configuração das variáveis ambientes](#configuração-das-variáveis-ambientes)
-  - [Criando as tabelas do banco de dados](#criando-as-tabelas-do-banco-de-dados)
 - [Testes](#testes)
 - [Projeto](#projeto)
   - [Executar o servidor](#executar-o-servidor)
@@ -71,8 +70,10 @@ no arquivo `.env.example` e colar no arquivo recém-criado. Após isso, os dados
 
 ![](.github/enviroment.gif)
 
-Neste projeto, contém apenas duas variáveis de ambiente:
+Neste projeto, contém as seguintes variáveis de ambiente:
  - O nome do banco, MONGO_DB, que não é obrigatório, visto que já tem um valor default na configuração de conexão ao banco.
+ - O host do banco, MONGO_HOST, que não é obrigatório, visto que já tem um valor default na configuração de conexão ao banco.
+ - A porta do banco, MONGO_PORT, que não é obrigatório, visto que já tem um valor default na configuração de conexão ao banco.
  - A chave de acesso da API The Movie Database API (https://developers.themoviedb.org/3/gettingstarted/introduction), API_KEY, que é obrigatório, para realizar a busca nessa API.
 
 
