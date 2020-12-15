@@ -138,7 +138,7 @@ Segue abaixo as informações da rota de buscar apenas um filme.
 Segue abaixo as informações da rota de buscar todos os filme.
 
 |Rota autenticada? | Método da rota | Nome da rota | Retorno |
-| :---: | :---: | :---: | :--- | :--- |
+| :---: | :---: | :---: | :--- |
 |Não | GET | /movies | Um array de objetos com os dados dos filmes já cadastrado na aplicação |
 
 ### Excluir um filme
